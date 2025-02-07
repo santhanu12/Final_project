@@ -19,21 +19,18 @@ use App\Http\Controllers\ManagerUserController;
 Route::middleware(['guest.redirect'])->group(function () {  
 Route::get('/',[SessionController::class,'create'])->name('login');
 Route::post('/login',[SessionController::class,'store']);
+Route::post('/register',[RegisteredUserController::class,'store']);
+Route::get('/register',[RegisteredUserController::class,'create']);
+Route::get('/forgetpassword', [RegisteredUserController::class,'forgetpassword']);
+Route::post('/forgetpassword',[RegisteredUserController::class,'forgetpasswordmail']);
+Route::post('/edit-password',[RegisteredUserController::class,'editpassword']);
+Route::get('/edit-password',[RegisteredUserController::class,'editpasswordget']);
 });
+
+Route::middleware(['user.redirect'])->group(function () { 
 Route::post('/logout',[SessionController::class,'destroy']);
 //user board
 Route::get('/userTask',[RegisteredUserController::class,'userTask']);
-
-Route::get('/forgetpassword', [RegisteredUserController::class,'forgetpassword']);
-
-Route::post('/forgetpassword',[RegisteredUserController::class,'forgetpasswordmail']);
-
-Route::post('/edit-password',[RegisteredUserController::class,'editpassword']);
-
-Route::get('/edit-password',[RegisteredUserController::class,'editpasswordget']);
-Route::post('/register',[RegisteredUserController::class,'store']);
-Route::get('/register',[RegisteredUserController::class,'create']);
-
 
 Route::get('/dashboard',[SessionController::class,'dashboard'])->middleware('auth');
 
@@ -96,4 +93,4 @@ Route::post('admingetusername', [AdminUserController::class,'getusername'])->nam
 Route::post('admingetmanagername', [AdminUserController::class,'getmanagername'])->name('admingetmanagername');
 Route::post('dashboardusername', [SessionController::class,'dashboardusername'])->name('dashboardusername');
 Route::post('dashboarduserid', [SessionController::class,'dashboarduserid'])->name('dashboarduserid');
-
+});
